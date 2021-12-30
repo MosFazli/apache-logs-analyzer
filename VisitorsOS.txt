@@ -1,0 +1,10 @@
+(Windows 2652
+(X11; 2046
+(compatible; 1584
+(Macintosh; 1389
++http://feedparser.org/" 364
+(iPhone; 354
+Tiny 198
+(Linux; 185
+(Windows; 136
+(+http://search.msn.com/msnbot.htm)" 118

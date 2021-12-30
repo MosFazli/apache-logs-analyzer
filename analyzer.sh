@@ -51,13 +51,21 @@ function showTopUserAgents {
 }
 
 function showPopularBrowsers {
+    echo Top 10 Popular Browsers:
     cat $log | awk '{count[$(NF)]++} END {for (browser in count) print browser, count[browser]}' | sort -k 2nr | head -n 10
     cat $log | awk '{count[$(NF)]++} END {for (browser in count) print browser, count[browser]}' | sort -k 2nr | head -n 10 > PopularBrowsers.txt
 }
 
 function showMostVisitedURLs {
+    echo 10 Most URLs Visited:
     awk '{count[$7]++} END {for (url in count) print url, count[url]}' $log | sort -k 2nr | head -n 10
     awk '{count[$7]++} END {for (url in count) print url, count[url]}' $log | sort -k 2nr | head -n 10 > MostVisitedURLs.txt
+}
+
+function visitorsOS {
+    echo Top 10 visitors Opeation Systems:
+    awk '{count[$13]++} END {for (os in count) print os, count[os]}' $log | sort -k 2nr | head -n 10
+    awk '{count[$13]++} END {for (os in count) print os, count[os]}' $log | sort -k 2nr | head -n 10 > VisitorsOS.txt
 }
 
 function countOfUniqueVisitors {
@@ -74,6 +82,7 @@ function filterRefrence {
     cat $log | egrep $word | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 10
     cat $log | egrep $word | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 10 > Filter$word.txt
 }
+
 
 
 
@@ -95,8 +104,9 @@ do
     echo    "7- Show Top 10 user agents"
     echo    "8- Show Most Popluar Browsers"
     echo    "9- Show Most Visited URLs"
-    echo    "10- Show count of unique Visitors"
-    echo    "11- Filter Refrences"
+    echo    "10- Show Most Visitors Operation Systems"
+    echo    "11- Show count of unique Visitors"
+    echo    "12- Filter Refrences"
     
     read selection
     
@@ -110,8 +120,9 @@ do
     7) showTopUserAgents;;
     8) showPopularBrowsers;;
     9) showMostVisitedURLs;;
-    10) countOfUniqueVisitors;;
-    11)echo Enter URL to filter search:;read link; filterRefrence;;
+    10) visitorsOS;;
+    11) countOfUniqueVisitors;;
+    12)echo Enter URL to filter search:;read link; filterRefrence;;
     *) echo you Entered Invalid Selection, try again;;
     
     esac
