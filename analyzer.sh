@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This Bash Script is useful for reading Apache log files
+# Developed By @MosFazli
+# 30 December 2021
+
 clear
 
 function showIPs {
