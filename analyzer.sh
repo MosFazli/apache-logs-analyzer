@@ -84,8 +84,6 @@ function filterRefrence {
 }
 
 
-
-
 function analyzeMenu {
 
 echo Analyzing logs from "$log" file
@@ -93,22 +91,36 @@ echo Analyzing logs from "$log" file
 while true
 do
     echo 
-    echo -e "\n***************************\n"
-    echo -e "choose an option: \n"
-    echo    "1- Show All IPs"
-    echo    "2- Show All Days available"
-    echo    "3- Show All Pick Hours"
-    echo    "4- Show types of Requests"
-    echo    "5- Show The 20 most visited IPs"
-    echo    "6- Show Top 10 referrers"
-    echo    "7- Show Top 10 user agents"
-    echo    "8- Show Most Popluar Browsers"
-    echo    "9- Show Most Visited URLs"
-    echo    "10- Show Most Visitors Operation Systems"
-    echo    "11- Show count of unique Visitors"
-    echo    "12- Filter Refrences"
+    echo -e "\n******************************************\n"
+    echo    "------------------------------------------"
+    echo -e "|           choose an option             |"
+    echo    "|----------------------------------------|"
+    echo    "|1 Show All IPs                          |"
+    echo    "|----------------------------------------|"
+    echo    "|2 Show All Days available               |"
+    echo    "|----------------------------------------|"
+    echo    "|3 Show All Pick Hours                   |"
+    echo    "|----------------------------------------|"
+    echo    "|4 Show types of Requests                |"
+    echo    "|----------------------------------------|"
+    echo    "|5 Show The 20 most visited IPs          |"
+    echo    "|----------------------------------------|"
+    echo    "|6 Show Top 10 referrers                 |"
+    echo    "|----------------------------------------|"
+    echo    "|7 Show Top 10 user agents               |"
+    echo    "|----------------------------------------|"
+    echo    "|8 Show Most Popluar Browsers            |"
+    echo    "|----------------------------------------|"
+    echo    "|9 Show Most Visited URLs                |"
+    echo    "|----------------------------------------|"
+    echo    "|10 Show Most Visitors Operation Systems |"
+    echo    "|----------------------------------------|"
+    echo    "|11 Show count of unique Visitors        |"
+    echo    "|----------------------------------------|"
+    echo    "|12 Filter Refrences                     |"
+    echo    "------------------------------------------"
     
-    read selection
+    read -p "choise: " selection
     
     case $selection in
     1) showIPs;;
@@ -134,7 +146,7 @@ function getFile {
 echo -e "Please select the input log:\n"
 ls -p | grep -w log
 echo
-#read log
+read log
 log="apache.log"
 
 if [ ! -f $log ]; then
@@ -146,6 +158,5 @@ else
 fi
 }
 
-echo "*************************"
-echo -e "This Program can be analyze a apache log file\n"
+echo -e "\nThis Program can be analyze a apache log file\n"
 getFile
