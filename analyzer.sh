@@ -3,7 +3,8 @@
 clear
 
 function showIPs {
-    cat $log | awk '{ print $1}' | uniq | wc | awk '{print $1 " IPs found:" }'
+    cat $log | awk '{ print $1}' | uniq | wc | awk '{print $1 " IPs without repetition found" }'
+        cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
     cat $log | awk '{ print count "times {" $1 "} IP is repeated."}' | sort -r | uniq -c | sort -r
     cat $log | awk '{ print $1}' | uniq > allIPs.txt
 }
@@ -29,15 +30,24 @@ function showRequestTypes {
 }
 
 function showTopIPs {
+    cat $log | awk '{ print $1}' | uniq | wc | awk '{print $1 " IPs without repetition found:" }'
+    cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
     echo Top 20 IPs:
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20 > TopIPs.txt
 }
 
-function showTopRefrences {
-    echo Total visit of $url : 
-    cat $log | egrep $url | awk -F\" '{ print $4 }'| grep -v '-'| wc -l;
-    cat $log | egrep $url | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 5;
+function showTopRefrences { 
+    cat $log | awk -F\" '{ print $4 }'| grep -v '-'| wc | awk '{print "All of refrences are: " $1}'
+    echo Top 10 Refrences:
+    cat $log | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 10
+    cat $log | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 10 > TopRefrences.txt
+}
+
+function showTopUserAgents {
+    echo Top 10 user agents:
+	cat $log | awk -F\" '{ print count $6 }' | sort | uniq -c | sort -nr | head -n 10
+	cat $log | awk -F\" '{ print count $6 }' | sort | uniq -c | sort -nr | head -n 10 > TopUserAgents.txt
 }
 
 
@@ -58,6 +68,7 @@ do
     echo    "4- Show types of Requests"
     echo    "5- Show The 20 most visited IPs"
     echo    "6- Show Top 10 referrers"
+    echo    "7- Show Top 10 user agents"
     read selection
     
     case $selection in
@@ -67,6 +78,7 @@ do
     4) showRequestTypes;;
     5) showTopIPs;;
     6) showTopRefrences;;
+    7) showTopUserAgents;;
     *) echo you Entered Invalid Selection, try again;;
     
     esac
