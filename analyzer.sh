@@ -4,8 +4,11 @@
 # Developed By @MosFazli
 # 30 December 2021
 
+# clear screen for start app
 clear
 
+# Fucntion 1: This function get first variable of each Rows (IP) and count them, show count of not repetition IPs
+# Show All IP Request, show sorting IPs without repetition and last part Saved it into directory with allIPs.txt file
 function showIPs {
     cat $log | awk '{ print $1}' | sort | uniq | wc | awk '{print $1 " IPs without repetition found" }'
     cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
@@ -14,25 +17,31 @@ function showIPs {
 }
 
 
+# Function 2: This function get forth part of each Rows (Days and Times) and cut it for get just Days, then first count days
+#  next show all of them and for the last part save it with allDays.txt file in directory
 function showAllDays {
     awk '{print count "times {" $4 "} Day is repeated."}' $log | cut -d: -f1 | uniq -c  | wc | awk '{print $1 " Days found:" }'
     awk '{print count "times {" $4 "} Day is repeated."}' $log | cut -b 1-6,9-19 | sort | uniq -c  | sort -nr
     awk '{print count "times {" $4 "} Day is repeated."}' $log | cut -b 1-6,9-19 | sort | uniq -c  | sort -nr > allDays.txt
 }
 
-
+# Function 3: This function like pervious function get forth part of each Rows (Days and Times) but this time cut it for separate 
+# Times, then sort them based on counts and show them afterwards save them into directory with pickHours.txt file
 function showpickHours {
     echo -e "Number of requests and Pick times in Order are:"
     awk '{print count  $4 }' $log | cut -b 14-15 | sort | uniq -c | sort -nr
     awk '{print count  $4 }' $log | cut -b 14-15 | sort | uniq -c | sort -nr > pickHours.txt
 }
 
+# Function 4: This funtion Shows Request types, It has a simple function, first get sixth part of each Rows (Request Types),
+# first counts them, next sort them based on repeated and shows them, Last save them into requestTypes.txt file in directory
 function showRequestTypes {
     cat $log | awk '{ print $6}'  | wc | awk '{print $1 " Requests found:" }'
     cat $log | awk '{ print count "times {" $6 "} Request is repeated."}' | sort -r | uniq -c | sort -r
     cat $log | awk '{ print count "times {" $6 "} Request is repeated."}' | sort -r | uniq -c | sort -r > requestTypes.txt
 }
 
+# Function 5: This 
 function showTopIPs {
     cat $log | awk '{ print $1}' | sort | uniq | wc | awk '{print $1 " IPs without repetition found" }'
     cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
@@ -40,6 +49,8 @@ function showTopIPs {
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20 > TopIPs.txt
 }
+
+
 
 function showTopRefrences { 
     cat $log | awk -F\" '{ print $4 }'| grep -v '-'| wc | awk '{print "All of refrences are: " $1}'
