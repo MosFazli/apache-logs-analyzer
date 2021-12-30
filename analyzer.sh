@@ -3,8 +3,8 @@
 clear
 
 function showIPs {
-    cat $log | awk '{ print $1}' | uniq | wc | awk '{print $1 " IPs without repetition found" }'
-        cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
+    cat $log | awk '{ print $1}' | sort | uniq | wc | awk '{print $1 " IPs without repetition found" }'
+    cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
     cat $log | awk '{ print count "times {" $1 "} IP is repeated."}' | sort -r | uniq -c | sort -r
     cat $log | awk '{ print $1}' | uniq > allIPs.txt
 }
@@ -30,7 +30,7 @@ function showRequestTypes {
 }
 
 function showTopIPs {
-    cat $log | awk '{ print $1}' | uniq | wc | awk '{print $1 " IPs without repetition found:" }'
+    cat $log | awk '{ print $1}' | sort | uniq | wc | awk '{print $1 " IPs without repetition found" }'
     cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
     echo Top 20 IPs:
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20
@@ -48,6 +48,11 @@ function showTopUserAgents {
     echo Top 10 user agents:
 	cat $log | awk -F\" '{ print count $6 }' | sort | uniq -c | sort -nr | head -n 10
 	cat $log | awk -F\" '{ print count $6 }' | sort | uniq -c | sort -nr | head -n 10 > TopUserAgents.txt
+}
+
+function countOfUniqueVisitors {
+    echo Count of unique Visitors:
+	cat $log | awk '{ print $1 }'  |  sort | uniq | wc -l
 }
 
 
@@ -69,6 +74,7 @@ do
     echo    "5- Show The 20 most visited IPs"
     echo    "6- Show Top 10 referrers"
     echo    "7- Show Top 10 user agents"
+    echo    "8- Show count of unique Visitors"
     read selection
     
     case $selection in
@@ -79,6 +85,7 @@ do
     5) showTopIPs;;
     6) showTopRefrences;;
     7) showTopUserAgents;;
+    8) countOfUniqueVisitors;;
     *) echo you Entered Invalid Selection, try again;;
     
     esac
