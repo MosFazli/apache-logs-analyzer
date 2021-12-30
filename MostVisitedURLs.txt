@@ -1,0 +1,10 @@
+/favicon.ico 807
+/style2.css 546
+/reset.css 538
+/images/jordan-80.png 533
+/images/web/2009/banner.png 516
+/blog/tags/puppet?flav=rss20 488
+/projects/xdotool/ 224
+/?flav=rss20 217
+/ 197
+/robots.txt 180

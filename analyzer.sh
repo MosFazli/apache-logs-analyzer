@@ -50,11 +50,30 @@ function showTopUserAgents {
 	cat $log | awk -F\" '{ print count $6 }' | sort | uniq -c | sort -nr | head -n 10 > TopUserAgents.txt
 }
 
+function showPopularBrowsers {
+    cat $log | awk '{count[$(NF)]++} END {for (browser in count) print browser, count[browser]}' | sort -k 2nr | head -n 10
+    cat $log | awk '{count[$(NF)]++} END {for (browser in count) print browser, count[browser]}' | sort -k 2nr | head -n 10 > PopularBrowsers.txt
+}
+
+function showMostVisitedURLs {
+    awk '{count[$7]++} END {for (url in count) print url, count[url]}' $log | sort -k 2nr | head -n 10
+    awk '{count[$7]++} END {for (url in count) print url, count[url]}' $log | sort -k 2nr | head -n 10 > MostVisitedURLs.txt
+}
+
 function countOfUniqueVisitors {
     echo Count of unique Visitors:
 	cat $log | awk '{ print $1 }'  |  sort | uniq | wc -l
 }
 
+
+function filterRefrence { 
+    echo "Total visits of $link : " | tr '[:upper:]' '[:lower:]' 
+    word="${link,,}"
+    #echo $word
+    cat $log | egrep $word | awk -F\" '{ print $4 }' | grep -v '-'| wc -l
+    cat $log | egrep $word | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 10
+    cat $log | egrep $word | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 10 > Filter$word.txt
+}
 
 
 
@@ -74,7 +93,11 @@ do
     echo    "5- Show The 20 most visited IPs"
     echo    "6- Show Top 10 referrers"
     echo    "7- Show Top 10 user agents"
-    echo    "8- Show count of unique Visitors"
+    echo    "8- Show Most Popluar Browsers"
+    echo    "9- Show Most Visited URLs"
+    echo    "10- Show count of unique Visitors"
+    echo    "11- Filter Refrences"
+    
     read selection
     
     case $selection in
@@ -85,7 +108,10 @@ do
     5) showTopIPs;;
     6) showTopRefrences;;
     7) showTopUserAgents;;
-    8) countOfUniqueVisitors;;
+    8) showPopularBrowsers;;
+    9) showMostVisitedURLs;;
+    10) countOfUniqueVisitors;;
+    11)echo Enter URL to filter search:;read link; filterRefrence;;
     *) echo you Entered Invalid Selection, try again;;
     
     esac
