@@ -28,11 +28,18 @@ function showRequestTypes {
     cat $log | awk '{ print count "times {" $6 "} Request is repeated."}' | sort -r | uniq -c | sort -r > requestTypes.txt
 }
 
-function top_ips {
+function showTopIPs {
     echo Top 20 IPs:
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20 > TopIPs.txt
 }
+
+function showTopRefrences {
+    echo Total visit of $url : 
+    cat $log | egrep $url | awk -F\" '{ print $4 }'| grep -v '-'| wc -l;
+    cat $log | egrep $url | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 5;
+}
+
 
 
 
@@ -49,7 +56,8 @@ do
     echo    "2- Show All Days available"
     echo    "3- Show All Pick Hours"
     echo    "4- Show types of Requests"
-    echo    "5- The 20 most visited IPs"
+    echo    "5- Show The 20 most visited IPs"
+    echo    "6- Show Top 10 referrers"
     read selection
     
     case $selection in
@@ -57,7 +65,8 @@ do
     2) showAllDays;;
     3) showpickHours;;
     4) showRequestTypes;;
-    5) top_ips;;
+    5) showTopIPs;;
+    6) showTopRefrences;;
     *) echo you Entered Invalid Selection, try again;;
     
     esac
