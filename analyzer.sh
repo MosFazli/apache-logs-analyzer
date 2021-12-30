@@ -7,7 +7,7 @@
 # clear screen for start app
 clear
 
-# Fucntion 1: This function get first variable of each Rows (IP) and count them, show count of not repetition IPs
+# Fucntion 1: This function get first variable of each Rows (IP) and count them, show count of non-repetition IPs
 # Show All IP Request, show sorting IPs without repetition and last part Saved it into directory with allIPs.txt file
 function showIPs {
     cat $log | awk '{ print $1}' | sort | uniq | wc | awk '{print $1 " IPs without repetition found" }'
@@ -41,7 +41,8 @@ function showRequestTypes {
     cat $log | awk '{ print count "times {" $6 "} Request is repeated."}' | sort -r | uniq -c | sort -r > requestTypes.txt
 }
 
-# Function 5: This 
+# Function 5: This function Shows Top IPs, like function 1 that just shows IPs, this function first count non-repetition IPs
+# next count all of IPs, then shows 20 IPs that are more duplicated than others, afterwards save it into TopIPs.txt file in directory
 function showTopIPs {
     cat $log | awk '{ print $1}' | sort | uniq | wc | awk '{print $1 " IPs without repetition found" }'
     cat $log | awk -F\" '{ print $1 }'| wc | awk '{print "All of IPs are: " $1}'
@@ -50,8 +51,8 @@ function showTopIPs {
     awk '{print count "times {" $1 "} IP is repeated."}' $log | sort | uniq -c  | sort -nr | head -n 20 > TopIPs.txt
 }
 
-
-
+#Function 6: This funtion Shows Top Refrences, first get All refrences with awk and then count them, then shows 10 refrences
+# that are more duplicated than others, in last part save them in directory with TopRefrences.txt name
 function showTopRefrences { 
     cat $log | awk -F\" '{ print $4 }'| grep -v '-'| wc | awk '{print "All of refrences are: " $1}'
     echo Top 10 Refrences:
@@ -59,6 +60,7 @@ function showTopRefrences {
     cat $log | awk -F\" '{ print  $4 }'| grep -v '-'| sort | uniq -c | sort -nr | head -n 10 > TopRefrences.txt
 }
 
+# Function 7: 
 function showTopUserAgents {
     echo Top 10 user agents:
 	cat $log | awk -F\" '{ print count $6 }' | sort | uniq -c | sort -nr | head -n 10
