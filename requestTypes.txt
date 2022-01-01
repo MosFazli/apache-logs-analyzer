@@ -1,4 +1,4 @@
-   9952 times {"GET} Request is repeated.
-     42 times {"HEAD} Request is repeated.
-      5 times {"POST} Request is repeated.
-      1 times {"OPTIONS} Request is repeated.
+  14189 times {"GET} Request is repeated.
+  12858 times {"POST} Request is repeated.
+      9 times {"HEAD} Request is repeated.
+      1 times {} Request is repeated.

@@ -164,7 +164,7 @@ echo -e "Please select the input log:\n"
 ls -p | grep -w log
 echo
 read log
-log="apache.log"
+#log="apache.log"
 
 if [ ! -f $log ]; then
     echo -e "\nFile not found!\n"
